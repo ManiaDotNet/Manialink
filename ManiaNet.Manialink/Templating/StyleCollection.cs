@@ -10,14 +10,14 @@ namespace ManiaNet.Manialink.Templating
     public class StyleCollection
     {
         /// <summary>
-        /// Gets or sets the style for a message box quad.
+        /// Gets or sets the style for dialog box backgrounds.
         /// </summary>
-        public string MessageBox { get; set; }
+        public string DialogBoxBackground { get; set; }
 
         /// <summary>
-        /// Gets or sets the style for a Button in a message box.
+        /// Gets or sets the style for dialog box buttons.
         /// </summary>
-        public string MessageBoxButton { get; set; }
+        public string DialogBoxButton { get; set; }
 
         // TODO: Add more; this is just an example.
     }
