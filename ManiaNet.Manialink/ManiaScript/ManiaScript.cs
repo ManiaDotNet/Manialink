@@ -1,24 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ManiaNet.Manialink.ManiaScript
 {
-    class ManiaScript
+    internal class ManiaScript
     {
-        private Dictionary<string, List<Event>> events = new Dictionary<string,List<Event>>();
-        private List<string> nativeEvents = new List<string>{"MouseClick", "MouseOut", "MouseOver", "KeyPress", "EntrySubmit"};
+        private Dictionary<string, List<Event>> events = new Dictionary<string, List<Event>>();
         private List<ManiascriptFunction> functions = new List<ManiascriptFunction>();
-        private List<ManiascriptMain> mainCode = new List<ManiascriptMain>();
         private List<ManiascriptGlobal> globalCode = new List<ManiascriptGlobal>();
-
+        private List<ManiascriptMain> mainCode = new List<ManiascriptMain>();
         private int mainFnCounter = 0;
+        private List<string> nativeEvents = new List<string> { "MouseClick", "MouseOut", "MouseOver", "KeyPress", "EntrySubmit" };
 
         public ManiaScript()
         {
-
         }
 
         /// <summary>
@@ -26,7 +22,8 @@ namespace ManiaNet.Manialink.ManiaScript
         /// </summary>
         /// <param name="e"></param>
         /// <returns></returns>
-        public ManiaScript addEvent(Event e) {
+        public ManiaScript addEvent(Event e)
+        {
             if (!this.events.ContainsKey(e.Type))
             {
                 this.events.Add(e.Type, new List<Event>());
@@ -45,6 +42,7 @@ namespace ManiaNet.Manialink.ManiaScript
             this.functions.Add(fn);
             return this;
         }
+
         /// <summary>
         /// Adds a function to the global code. Functions will be rendered after the global Code!
         /// </summary>
@@ -56,6 +54,7 @@ namespace ManiaNet.Manialink.ManiaScript
             this.functions.Add(new ManiascriptFunction(code, priority));
             return this;
         }
+
         /// <summary>
         /// Adds a function to the global code. Functions will be rendered after the global Code!
         /// </summary>
@@ -72,6 +71,29 @@ namespace ManiaNet.Manialink.ManiaScript
         }
 
         /// <summary>
+        /// Adds code before the main() function
+        /// </summary>
+        /// <param name="code">The code to be added</param>
+        /// <returns>This</returns>
+        public ManiaScript AddToGlobal(ManiascriptGlobal code)
+        {
+            this.AddToGlobal(code.Code, code.Priority);
+            return this;
+        }
+
+        /// <summary>
+        /// Adds code before the main() function
+        /// </summary>
+        /// <param name="code">The code to be added</param>
+        /// <param name="priority">Code will be sorted by priority</param>
+        /// <returns>This</returns>
+        public ManiaScript AddToGlobal(string code, int priority = 5)
+        {
+            this.globalCode.Add(new ManiascriptGlobal(code, priority));
+            return this;
+        }
+
+        /// <summary>
         /// Adds code to the main() function before the while-loop
         /// </summary>
         /// <param name="code">The code to be added</param>
@@ -81,6 +103,7 @@ namespace ManiaNet.Manialink.ManiaScript
             this.AddToMain(code.Code, code.Priority, code.Inline);
             return this;
         }
+
         /// <summary>
         /// Adds code to the main() function before the while-loop
         /// </summary>
@@ -101,28 +124,6 @@ namespace ManiaNet.Manialink.ManiaScript
         }
 
         /// <summary>
-        /// Adds code before the main() function
-        /// </summary>
-        /// <param name="code">The code to be added</param>
-        /// <returns>This</returns>
-        public ManiaScript AddToGlobal(ManiascriptGlobal code)
-        {
-            this.AddToGlobal(code.Code, code.Priority);
-            return this;
-        }
-        /// <summary>
-        /// Adds code before the main() function
-        /// </summary>
-        /// <param name="code">The code to be added</param>
-        /// <param name="priority">Code will be sorted by priority</param>
-        /// <returns>This</returns>
-        public ManiaScript AddToGlobal(string code, int priority = 5)
-        {
-            this.globalCode.Add(new ManiascriptGlobal(code, priority));
-            return this;
-        }
-
-        /// <summary>
         /// Creates the whole ManiaScript part with all given functions and events
         /// </summary>
         /// <param name="compress">Compressed code does not contain comments or unnecessary whitespaces or newlines. TODO</param>
@@ -139,29 +140,13 @@ namespace ManiaNet.Manialink.ManiaScript
             return result;
         }
 
-        private string buildMain()
-        {
-            string result = "main(){";
-            result += String.Join("\n", this.mainCode.OrderBy(x => x.Priority).ToList().Select(x => x.Code).ToList());
-            result += buildLoop();
-            return result + "}";
-        }
-
-        private string buildLoop()
-        {
-            string result = "while(True) {yield;";
-            result += buildEvents();
-            result += "}";
-            return result;
-        }
-
         private string buildEvents()
         {
             if (events.Count == 0)
                 return string.Empty;
             string result = "foreach (Event in PendingEvents) {switch(Event.Type) {";
             int n = 0;
-            foreach(KeyValuePair<string, List<Event>> entry in events)
+            foreach (KeyValuePair<string, List<Event>> entry in events)
             {
                 if (this.nativeEvents.Contains(entry.Key))
                 {
@@ -201,6 +186,22 @@ namespace ManiaNet.Manialink.ManiaScript
             }
             result += "}}";
             return result;
+        }
+
+        private string buildLoop()
+        {
+            string result = "while(True) {yield;";
+            result += buildEvents();
+            result += "}";
+            return result;
+        }
+
+        private string buildMain()
+        {
+            string result = "main(){";
+            result += String.Join("\n", this.mainCode.OrderBy(x => x.Priority).ToList().Select(x => x.Code).ToList());
+            result += buildLoop();
+            return result + "}";
         }
     }
 }
