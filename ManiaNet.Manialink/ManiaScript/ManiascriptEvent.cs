@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ManiaNet.Manialink.ManiaScript
 {
-    class Event : ManiascriptCode
+    abstract class Event : ManiascriptCode
     {
         public string Type { get; private set; }
 
@@ -18,7 +18,7 @@ namespace ManiaNet.Manialink.ManiaScript
         }
     }
 
-    class ControlEvent : Event
+    abstract class ControlEvent : Event
     {
 
         public string[] ControlIDs { get; private set; }
