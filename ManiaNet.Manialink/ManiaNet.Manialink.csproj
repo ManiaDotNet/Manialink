@@ -48,6 +48,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ManiaScript\ManialinkCode.cs" />
+    <Compile Include="ManiaScript\ManialinkEvent.cs" />
+    <Compile Include="ManiaScript\ManialinkMain.cs" />
+    <Compile Include="ManiaScript\ManiaScript.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Templating\ManialinkTemplate.cs" />
     <Compile Include="Templating\StyleCollection.cs" />
