@@ -48,6 +48,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Elements\ManialinkAudio.cs" />
+    <Compile Include="Elements\ManialinkDico.cs" />
+    <Compile Include="Elements\ManialinkElement.cs" />
+    <Compile Include="Elements\ManialinkEntry.cs" />
+    <Compile Include="Elements\ManialinkFileEntry.cs" />
+    <Compile Include="Elements\ManialinkFormat.cs" />
+    <Compile Include="Elements\ManialinkFrame.cs" />
+    <Compile Include="Elements\ManialinkFrame3D.cs" />
+    <Compile Include="Elements\ManialinkGauge.cs" />
+    <Compile Include="Elements\ManialinkGraph.cs" />
+    <Compile Include="Elements\ManialinkInclude.cs" />
+    <Compile Include="Elements\ManialinkLabel.cs" />
+    <Compile Include="Elements\ManialinkMusic.cs" />
+    <Compile Include="Elements\ManialinkQuad.cs" />
+    <Compile Include="Elements\ManialinkScript.cs" />
+    <Compile Include="Elements\ManialinkTimeout.cs" />
+    <Compile Include="Elements\ManialinkVideo.cs" />
     <Compile Include="ManiaScript\ManiascriptCode.cs" />
     <Compile Include="ManiaScript\ManiascriptEvent.cs" />
     <Compile Include="ManiaScript\ManiaScript.cs" />
